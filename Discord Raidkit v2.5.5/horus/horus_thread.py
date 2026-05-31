@@ -94,7 +94,7 @@ class HorusThread(QThread):
         for result in results:
             if isinstance(result, Exception):
                 utils_log.serror(f"Error loading cog: {result}")
-                self.signal_append_terminal.emit(f"Error loading cog (see logs for more info...)")
+                self.signal_append_hterminal.emit(f"Error loading cog (see logs for more info...)")
                 raise result
 
     @tasks.loop(seconds=10)
