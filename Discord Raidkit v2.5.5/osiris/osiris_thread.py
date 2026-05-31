@@ -41,6 +41,8 @@ class OsirisThread(QThread):
                 coroutine = oc.login(**kwargs)
             case EO_Commands.NUKE.value:
                 coroutine = oc.nuke(**kwargs)
+            case _:
+                coroutine = None
         
         if coroutine:
             new_task = asyncio.run_coroutine_threadsafe(coroutine, self.osiris_loop)
