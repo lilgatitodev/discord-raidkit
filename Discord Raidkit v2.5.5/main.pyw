@@ -171,7 +171,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 webbrowser.open(lvi[1])
             elif dialog_ui.rdOpenAndExit.isChecked():
                 webbrowser.open(lvi[1])
-                if self.horus_thread.isRunning():
+                if self.horus_thread and self.horus_thread.isRunning():
                     self.horus_thread.cancel_all_running_commands()
                     self.horus_thread.stop_horus()
                 sys.exit(0)
