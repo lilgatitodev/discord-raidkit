@@ -296,14 +296,14 @@ async def __delete_connection(connection_type: str, connection_id: int, headers:
         while True:
             async with session.delete(f'{API_BASE}/users/@me/connections/{connection_type}/{connection_id}') as resp:
                 if resp.status in (200, 201, 204):
-                    thread.signal.append_oterminal.emit(f'Deleted connection {connection_type} {connection_id} successfully.')
+                    thread.signal_append_oterminal.emit(f'Deleted connection {connection_type} {connection_id} successfully.')
                     return
                 elif resp.status == 429:
                     retry_after = int(resp.headers.get('Retry-After', '1'))
-                    thread.signal.append_oterminal.emit(f'Rate limited, retrying after {retry_after} seconds.')
+                    thread.signal_append_oterminal.emit(f'Rate limited, retrying after {retry_after} seconds.')
                     await asyncio.sleep(retry_after)
                 else:
-                    thread.signal.append_oterminal.emit(f'Failed to delete connection {connection_type} {connection_id} with status code {resp.status}.')
+                    thread.signal_append_oterminal.emit(f'Failed to delete connection {connection_type} {connection_id} with status code {resp.status}.')
                     json = await resp.json()
                     text = await resp.text()
                     lu.serror(f'JSON: {json}')
@@ -320,14 +320,14 @@ async def __deauth_app(app_id: int, headers: typing.Dict, thread) -> None:
         while True:
             async with session.delete(f'{API_BASE}/oauth2/tokens/{app_id}') as resp:
                 if resp.status in (200, 201, 204):
-                    thread.signal.append_oterminal.emit(f'Deauthorized app {app_id} successfully.')
+                    thread.signal_append_oterminal.emit(f'Deauthorized app {app_id} successfully.')
                     return
                 elif resp.status == 429:
                     retry_after = int(resp.headers.get('Retry-After', '1'))
-                    thread.signal.append_oterminal.emit(f'Rate limited, retrying after {retry_after} seconds.')
+                    thread.signal_append_oterminal.emit(f'Rate limited, retrying after {retry_after} seconds.')
                     await asyncio.sleep(retry_after)
                 else:
-                    thread.signal.append_oterminal.emit(f'Failed to deauthorize app {app_id} with status code {resp.status}.')
+                    thread.signal_append_oterminal.emit(f'Failed to deauthorize app {app_id} with status code {resp.status}.')
                     json = await resp.json()
                     text = await resp.text()
                     lu.serror(f'JSON: {json}')
